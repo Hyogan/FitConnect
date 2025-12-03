@@ -1,8 +1,9 @@
+// app/index.tsx
+import { useThemeApp } from "@/context/ThemeContext";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import React from "react";
 import {
-  Dimensions,
   FlatList,
   Image,
   Pressable,
@@ -10,15 +11,13 @@ import {
   Text,
   View,
 } from "react-native";
+import { ThemeToggle } from "../components/ThemeToggle";
 
-const { width } = Dimensions.get("window");
-
-// Dummy posts
 const POSTS = [
   {
     id: "1",
     user: "Alice",
-    avatar: "https://api.dicebear.com/8.x/thumbs/svg?seed=Alice",
+    avatar: "https://picsum.photos/401/300",
     time: "2h ago",
     text: "Just finished a 5km run! Feeling amazing 💪",
     image: "https://picsum.photos/400/300",
@@ -26,23 +25,64 @@ const POSTS = [
   {
     id: "2",
     user: "Bob",
-    avatar: "https://api.dicebear.com/8.x/thumbs/svg?seed=Bob",
+    avatar: "https://picsum.photos/401/400",
     time: "4h ago",
     text: "Gym session done! #gains",
     image: "https://picsum.photos/401/300",
   },
   {
     id: "3",
+    user: "Bob",
+    avatar: "https://picsum.photos/401/400",
+    time: "4h ago",
+    text: "Gym session done! #gains",
+    image: "https://picsum.photos/401/300",
+  },
+  {
+    id: "4",
     user: "Charlie",
-    avatar: "https://api.dicebear.com/8.x/thumbs/svg?seed=Charlie",
+    avatar: "https://picsum.photos/400/300",
     time: "6h ago",
     text: "Morning yoga is the best way to start the day 🌞",
   },
+  {
+    id: "5",
+    user: "Bob",
+    avatar: "https://picsum.photos/401/400",
+    time: "4h ago",
+    text: "Gym session done! #gains",
+    image: "https://picsum.photos/401/300",
+  },
+  {
+    id: "6",
+    user: "Bob",
+    avatar: "https://picsum.photos/401/400",
+    time: "4h ago",
+    text: "Gym session done! #gains",
+    image: "https://picsum.photos/401/300",
+  },
+  {
+    id: "7",
+    user: "Bob",
+    avatar: "https://picsum.photos/401/400",
+    time: "4h ago",
+    text: "Gym session done! #gains",
+    image: "https://picsum.photos/401/300",
+  },
+  {
+    id: "8",
+    user: "Bob",
+    avatar: "https://picsum.photos/401/400",
+    time: "4h ago",
+    text: "Gym session done! #gains",
+    image: "https://picsum.photos/401/300",
+  },
 ];
 
-const HomePage: React.FC = () => {
+export default function HomePage() {
   const router = useRouter();
-
+  const { theme, toggleTheme } = useThemeApp();
+  const styles = themedStyles(theme.colors);
   const renderPost = ({ item }: any) => (
     <View style={styles.postCard}>
       <View style={styles.postHeader}>
@@ -61,80 +101,126 @@ const HomePage: React.FC = () => {
 
       <View style={styles.postActions}>
         <Pressable style={styles.actionButton}>
-          <Text>❤️ Like</Text>
-          <Ionicons name="mail-outline" size={20} color="#555" />
+          <View style={styles.actionContent}>
+            <Ionicons name="heart-outline" size={20} color="#ff0000" />
+            <Text style={styles.actionText}>Like</Text>
+          </View>
         </Pressable>
+
         <Pressable style={styles.actionButton}>
-          <Text>
-            <Ionicons name="mail-outline" size={20} color="#555" />
-            Comment
-          </Text>
+          <View style={styles.actionContent}>
+            <Ionicons
+              name="chatbubble-outline"
+              size={20}
+              color={theme.colors.text}
+            />
+            <Text style={styles.actionText}>Comment</Text>
+          </View>
         </Pressable>
       </View>
     </View>
   );
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container]}>
       <FlatList
         data={POSTS}
         keyExtractor={(item) => item.id}
         renderItem={renderPost}
         contentContainerStyle={{ paddingVertical: 10 }}
+        showsVerticalScrollIndicator={false}
       />
-
-      {/* Floating new post button */}
-      <Pressable
-        style={styles.floatingButton}
-        onPress={() => router.push("/post")}
-      >
-        <Text style={styles.floatingButtonText}>＋</Text>
-      </Pressable>
+      <View style={styles.floatingButtons}>
+        {/* Floating new post button */}
+        <Pressable
+          style={styles.floatingButton}
+          onPress={() => router.push("/post")}
+        >
+          <Text style={styles.floatingButtonText}>＋</Text>
+        </Pressable>
+        <ThemeToggle
+          dark={theme.dark}
+          onToggle={toggleTheme}
+          color={theme.colors.text}
+          backgroundColor={theme.colors.card}
+        />
+      </View>
     </View>
   );
-};
+}
 
-export default HomePage;
+const themedStyles = (colors: any) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+      //   paddingTop: 20,
+    },
+    postCard: {
+      backgroundColor: colors.card,
+      marginVertical: 8,
+      marginHorizontal: 12,
+      borderRadius: 14,
+      padding: 12,
+      shadowColor: "#000",
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.1,
+      shadowRadius: 4,
+      elevation: 3,
+    },
 
-const styles = StyleSheet.create({
-  container: { flex: 1, paddingTop: 50, backgroundColor: "#fff" },
+    postHeader: { flexDirection: "row", alignItems: "center", marginBottom: 8 },
+    avatar: { width: 40, height: 40, borderRadius: 20, marginRight: 10 },
 
-  postCard: {
-    backgroundColor: "#fff",
-    marginVertical: 8,
-    marginHorizontal: 12,
-    borderRadius: 14,
-    padding: 12,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-  },
-  postHeader: { flexDirection: "row", alignItems: "center", marginBottom: 8 },
-  avatar: { width: 40, height: 40, borderRadius: 20, marginRight: 10 },
-  userName: { fontWeight: "600" },
-  time: { fontSize: 12, color: "#666" },
-  postText: { marginBottom: 8 },
-  postImage: {
-    width: width - 24,
-    height: 200,
-    borderRadius: 12,
-    marginBottom: 8,
-  },
-  postActions: { flexDirection: "row", justifyContent: "space-around" },
-  actionButton: { paddingVertical: 6 },
-  floatingButton: {
-    position: "absolute",
-    bottom: 30,
-    right: 20,
-    backgroundColor: "#6A5AE0",
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    alignItems: "center",
-    justifyContent: "center",
-    elevation: 6,
-  },
-  floatingButtonText: { fontSize: 30, color: "#fff", lineHeight: 32 },
-});
+    userName: { fontWeight: "600", color: colors.text },
+    time: { fontSize: 12, color: colors.text },
+
+    postText: { marginBottom: 8, color: colors.text },
+
+    postImage: {
+      width: "100%",
+      height: 200,
+      borderRadius: 12,
+      marginBottom: 8,
+    },
+
+    postActions: {
+      flexDirection: "row",
+      justifyContent: "space-around",
+    },
+
+    actionButton: { paddingVertical: 6 },
+    actionContent: { flexDirection: "row", alignItems: "center" },
+    actionText: { marginLeft: 5, fontSize: 16, color: colors.text },
+    floatingButtons: {
+      position: "absolute",
+      bottom: 120,
+      right: 20,
+      gap: 6,
+    },
+    floatingButton: {
+      backgroundColor: "#6A5AE0",
+      width: 60,
+      height: 60,
+      borderRadius: 30,
+      alignItems: "center",
+      justifyContent: "center",
+      elevation: 6,
+    },
+    floatingButtonText: { fontSize: 30, color: "#fff", lineHeight: 32 },
+
+    themeButton: {
+      backgroundColor: colors.card,
+      width: 50,
+      height: 50,
+      borderRadius: 25,
+      alignItems: "center",
+      justifyContent: "center",
+      borderWidth: 1,
+      borderColor: colors.border,
+    },
+    themeButtonText: { fontSize: 25, color: colors.text },
+
+    iconWrapper: {
+      transform: [{ rotate: colors.dark ? "0deg" : "180deg" }],
+    },
+  });

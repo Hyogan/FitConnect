@@ -1,4 +1,5 @@
 // app/(auth)/components/BackgroundLayout.tsx
+import { useThemeApp } from "@/context/ThemeContext";
 import { LinearGradient } from "expo-linear-gradient";
 import React, { useEffect, useRef } from "react";
 import { Animated, Dimensions, Easing, StyleSheet, View } from "react-native";
@@ -10,7 +11,8 @@ export const BackgroundLayout: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const topCircleAnim = useRef(new Animated.Value(0)).current;
   const bottomCircleAnim = useRef(new Animated.Value(0)).current;
-
+  const { theme } = useThemeApp();
+  const styles = themedStyles(theme.colors);
   useEffect(() => {
     const animate = (anim: Animated.Value, toValue: number, duration: number) =>
       Animated.loop(
@@ -61,28 +63,29 @@ export const BackgroundLayout: React.FC<{ children: React.ReactNode }> = ({
   );
 };
 
-const styles = StyleSheet.create({
-  content: {
-    width: "100%",
-    height: "100%",
-    flex: 1,
-    backgroundColor: "#0000",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  circle: { position: "absolute", borderRadius: 1000 },
-  circleTop: {
-    width: 140,
-    height: 140,
-    top: -60,
-    left: -40,
-    backgroundColor: "rgba(238,0,79,0.3)",
-  },
-  circleBottom: {
-    width: 180,
-    height: 180,
-    bottom: -50,
-    right: -30,
-    backgroundColor: "rgba(0,122,255,0.25)",
-  },
-});
+const themedStyles = (colors: any) =>
+  StyleSheet.create({
+    content: {
+      width: "100%",
+      height: "100%",
+      flex: 1,
+      backgroundColor: colors.background,
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    circle: { position: "absolute", borderRadius: 1000 },
+    circleTop: {
+      width: 140,
+      height: 140,
+      top: -60,
+      left: -40,
+      backgroundColor: colors.circleTopBackground,
+    },
+    circleBottom: {
+      width: 180,
+      height: 180,
+      bottom: -50,
+      right: -30,
+      backgroundColor: colors.circleBottomBackground,
+    },
+  });

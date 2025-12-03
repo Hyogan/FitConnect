@@ -1,5 +1,5 @@
 import { Ionicons } from "@expo/vector-icons";
-import React from "react";
+import React, { useEffect } from "react";
 import { Pressable, StyleSheet, View } from "react-native";
 import Animated, {
   useAnimatedStyle,
@@ -24,10 +24,12 @@ const AnimatedTabBar = ({ state, descriptors, navigation }: any) => {
   // Animate pill position when active tab changes
   //   pillOffset.value = withTiming(pillPosition, { duration: 250 });
 
-  pillOffset.value = withSpring(pillPosition, {
-    damping: 20,
-    stiffness: 100,
-  });
+  useEffect(() => {
+    pillOffset.value = withSpring(pillPosition, {
+      damping: 20,
+      stiffness: 100,
+    });
+  }, [state.index]);
 
   const pillStyle = useAnimatedStyle(() => ({
     transform: [{ translateX: pillOffset.value }],
