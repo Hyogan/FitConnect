@@ -10,6 +10,7 @@ export const LightTheme = {
     shadowColor: "#000",
     circleTopBackground: "rgba(238,0,79,0.3)",
     circleBottomBackground: "rgba(0,122,255,0.25)",
+    muted: "#8E8E93",
   },
 };
 
@@ -24,5 +25,6 @@ export const DarkTheme = {
     shadowColor: "#000",
     circleTopBackground: "rgba(238, 0, 79, 1)",
     circleBottomBackground: "rgba(0, 123, 255, 1)",
+    muted: "#A1A1A1",
   },
 };

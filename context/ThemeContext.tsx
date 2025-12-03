@@ -12,6 +12,9 @@ export const ThemeProviderApp = ({ children }: any) => {
   const [theme, setTheme] = useState(
     systemColor === "dark" ? DarkTheme : LightTheme
   );
+  useEffect(() => {
+    setTheme(LightTheme);
+  }, []);
 
   const toggleTheme = () => {
     setTheme((prev) => (prev.dark ? LightTheme : DarkTheme));

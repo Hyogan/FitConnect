@@ -1,5 +1,6 @@
 // app/index.tsx
 import { useThemeApp } from "@/context/ThemeContext";
+import { Post, POSTS } from "@/data/posts";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import React from "react";
@@ -11,84 +12,18 @@ import {
   Text,
   View,
 } from "react-native";
-import { ThemeToggle } from "../components/ThemeToggle";
-
-const POSTS = [
-  {
-    id: "1",
-    user: "Alice",
-    avatar: "https://picsum.photos/401/300",
-    time: "2h ago",
-    text: "Just finished a 5km run! Feeling amazing 💪",
-    image: "https://picsum.photos/400/300",
-  },
-  {
-    id: "2",
-    user: "Bob",
-    avatar: "https://picsum.photos/401/400",
-    time: "4h ago",
-    text: "Gym session done! #gains",
-    image: "https://picsum.photos/401/300",
-  },
-  {
-    id: "3",
-    user: "Bob",
-    avatar: "https://picsum.photos/401/400",
-    time: "4h ago",
-    text: "Gym session done! #gains",
-    image: "https://picsum.photos/401/300",
-  },
-  {
-    id: "4",
-    user: "Charlie",
-    avatar: "https://picsum.photos/400/300",
-    time: "6h ago",
-    text: "Morning yoga is the best way to start the day 🌞",
-  },
-  {
-    id: "5",
-    user: "Bob",
-    avatar: "https://picsum.photos/401/400",
-    time: "4h ago",
-    text: "Gym session done! #gains",
-    image: "https://picsum.photos/401/300",
-  },
-  {
-    id: "6",
-    user: "Bob",
-    avatar: "https://picsum.photos/401/400",
-    time: "4h ago",
-    text: "Gym session done! #gains",
-    image: "https://picsum.photos/401/300",
-  },
-  {
-    id: "7",
-    user: "Bob",
-    avatar: "https://picsum.photos/401/400",
-    time: "4h ago",
-    text: "Gym session done! #gains",
-    image: "https://picsum.photos/401/300",
-  },
-  {
-    id: "8",
-    user: "Bob",
-    avatar: "https://picsum.photos/401/400",
-    time: "4h ago",
-    text: "Gym session done! #gains",
-    image: "https://picsum.photos/401/300",
-  },
-];
+import { ThemeToggle } from "../../components/ThemeToggle";
 
 export default function HomePage() {
   const router = useRouter();
   const { theme, toggleTheme } = useThemeApp();
   const styles = themedStyles(theme.colors);
-  const renderPost = ({ item }: any) => (
+  const renderPost = ({ item }: { item: Post }) => (
     <View style={styles.postCard}>
       <View style={styles.postHeader}>
-        <Image source={{ uri: item.avatar }} style={styles.avatar} />
+        <Image source={{ uri: item.user.avatar }} style={styles.avatar} />
         <View>
-          <Text style={styles.userName}>{item.user}</Text>
+          <Text style={styles.userName}>{item.user.name}</Text>
           <Text style={styles.time}>{item.time}</Text>
         </View>
       </View>
@@ -103,6 +38,7 @@ export default function HomePage() {
         <Pressable style={styles.actionButton}>
           <View style={styles.actionContent}>
             <Ionicons name="heart-outline" size={20} color="#ff0000" />
+            <Text style={styles.statsText}>{item.likes ?? 0}</Text>
             <Text style={styles.actionText}>Like</Text>
           </View>
         </Pressable>
@@ -114,6 +50,7 @@ export default function HomePage() {
               size={20}
               color={theme.colors.text}
             />
+            <Text style={styles.statsText}>{item.comments ?? 0}</Text>
             <Text style={styles.actionText}>Comment</Text>
           </View>
         </Pressable>
@@ -223,4 +160,11 @@ const themedStyles = (colors: any) =>
     iconWrapper: {
       transform: [{ rotate: colors.dark ? "0deg" : "180deg" }],
     },
+    postStats: {
+      flexDirection: "row",
+      justifyContent: "flex-start",
+      gap: 16,
+      marginTop: 8,
+    },
+    statsText: { color: colors.text, fontSize: 12 },
   });

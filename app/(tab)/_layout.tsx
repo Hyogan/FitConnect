@@ -5,14 +5,15 @@ import {
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
 import { BackgroundLayout } from "../(auth)/components/BackgroundLayout";
-import AnimatedTabBar from "../components/nav/AnimatedTabBar";
-import { CustomHeader } from "../components/nav/CustomHeader";
+import AnimatedTabBar from "../../components/nav/AnimatedTabBar";
+import { FitConnectHeader } from "../../components/nav/FitConnectHeader";
 
 const TAB_CONFIG = [
   { name: "home", title: "Home", icon: "home-outline" },
   { name: "profile", title: "Profile", icon: "person-outline" },
-  { name: "notifications", title: "Alerts", icon: "notifications-outline" },
-  { name: "settings", title: "Settings", icon: "settings-outline" },
+  { name: "workout", title: "Workout", icon: "dumbbell" },
+  // { name: "notifications", title: "Alerts", icon: "notifications-outline" },
+  { name: "chat", title: "Chat", icon: "chatbubble-outline" },
 ];
 
 export default function TabsLayout() {
@@ -34,7 +35,7 @@ export default function TabsLayout() {
     <Tabs
       tabBar={(props) => <AnimatedTabBar {...props} />}
       screenOptions={{
-        header: () => <CustomHeader />, // apply to ALL tabs
+        header: () => <FitConnectHeader />, // apply to ALL tabs
       }}
       screenLayout={screenLayout}
     >

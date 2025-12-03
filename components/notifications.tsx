@@ -1,5 +1,6 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet } from "react-native";
+import WorkoutScreen from "./workouts/workouts";
 
 export default function NotificationsPage() {
   const notifications = [
@@ -9,15 +10,17 @@ export default function NotificationsPage() {
   ];
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Notifications</Text>
+    // <View style={styles.container}>
+    //   <Text style={styles.title}>Notifications</Text>
 
-      {notifications.map((n) => (
-        <View key={n.id} style={styles.notification}>
-          <Text style={styles.text}>{n.text}</Text>
-        </View>
-      ))}
-    </View>
+    //   {notifications.map((n) => (
+    //     <View key={n.id} style={styles.notification}>
+    //       <Text style={styles.text}>{n.text}</Text>
+    //     </View>
+    //   ))}
+
+    // </View>
+    <WorkoutScreen />
   );
 }
 

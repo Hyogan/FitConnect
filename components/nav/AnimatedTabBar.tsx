@@ -1,4 +1,4 @@
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import React, { useEffect } from "react";
 import { Pressable, StyleSheet, View } from "react-native";
 import Animated, {
@@ -11,13 +11,14 @@ import Animated, {
 const ICON_MAP = {
   home: "home-outline",
   profile: "person-outline",
-  notifications: "notifications-outline",
-  settings: "settings-outline",
+  //   notifications: "notifications-outline",
+  chat: "chatbubble-outline",
+  workout: "dumbbell",
 };
 const TAB_PILL_SIZE = 50;
 
 const AnimatedTabBar = ({ state, descriptors, navigation }: any) => {
-  const tabWidth = 75.5;
+  const tabWidth = 70;
   const pillOffset = useSharedValue(0);
   const pillPosition =
     state.index * tabWidth + tabWidth / 2 - TAB_PILL_SIZE / 2;
@@ -44,8 +45,11 @@ const AnimatedTabBar = ({ state, descriptors, navigation }: any) => {
       <View style={styles.row}>
         {state.routes.map((route: any, index: number) => {
           const isFocused = state.index === index;
-          const icon = ICON_MAP[route.name];
-
+          const routeName = route.name.split("/")[0];
+          const iconName = ICON_MAP[routeName];
+          //   console.log(
+          //     `HERE_WE_ARE : --INDEX--${index} AND routeName: --${route.name}--`
+          //   );
           // Animate icon Y position based on focus
           const animatedIconStyle = useAnimatedStyle(() => ({
             transform: [
@@ -62,11 +66,19 @@ const AnimatedTabBar = ({ state, descriptors, navigation }: any) => {
               style={styles.btn}
             >
               <Animated.View style={animatedIconStyle}>
-                <Ionicons
-                  name={icon}
-                  size={26}
-                  color={isFocused ? "#fff" : "#6A5AE0"}
-                />
+                {route.name === "workout" ? (
+                  <MaterialCommunityIcons
+                    name={iconName}
+                    size={26}
+                    color={isFocused ? "#fff" : "#6A5AE0"}
+                  />
+                ) : (
+                  <Ionicons
+                    name={iconName}
+                    size={26}
+                    color={isFocused ? "#fff" : "#6A5AE0"}
+                  />
+                )}
               </Animated.View>
             </Pressable>
           );

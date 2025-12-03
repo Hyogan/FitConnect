@@ -14,7 +14,11 @@ export function CustomHeader() {
 
       <View style={styles.right}>
         <TouchableOpacity style={styles.iconButton}>
-          <Ionicons name="notifications-outline" size={26} color="#333" />
+          <Ionicons
+            name="notifications-outline"
+            size={26}
+            color={theme.colors.text}
+          />
         </TouchableOpacity>
 
         <TouchableOpacity>
